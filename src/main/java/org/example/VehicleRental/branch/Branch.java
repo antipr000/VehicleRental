@@ -29,13 +29,14 @@ public class Branch {
         this.priceHikingStrategy = priceHikingStrategy;
     }
 
-    private boolean isValidVehicle(String vehicleType) {
+    private boolean isValidVehicle(String vehicleType, String vehicleId) {
         if(vehicleTypes.stream().filter(type -> type.equals(vehicleType)).count() == 0) return  false;
+        if(vehicles.stream().filter(vehicle -> vehicle.getId().equals(vehicleId)).count() > 0) return false;
         return true;
     }
 
     public boolean onboardVehicle(String vehicleType, String vehicleId, int price) {
-        if(!isValidVehicle(vehicleType)) return false;
+        if(!isValidVehicle(vehicleType, vehicleId)) return false;
         Vehicle vehicle = new Vehicle(vehicleType, vehicleId, price);
         vehicles.add(vehicle);
         return true;
