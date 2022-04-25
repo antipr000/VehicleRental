@@ -1,13 +1,9 @@
 package org.example.VehicleRental.branch;
 
-import apple.laf.JRSUIUtils;
-import org.example.VehicleRental.vehicles.RentalItem;
 import org.example.VehicleRental.vehicles.Vehicle;
-import org.example.VehicleRental.vehicles.decorators.InflatedPrice;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
