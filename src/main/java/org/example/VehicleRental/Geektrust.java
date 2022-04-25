@@ -31,7 +31,7 @@ public class Geektrust {
                             vehicleType = lineItems[i];
                             vehicleTypes.add(vehicleType);
                         }
-                        System.out.println(rentalService.addBranch(branchName, vehicleTypes));
+                        System.out.println(rentalService.addBranch(branchName, vehicleTypes) ? "TRUE" : "FALSE");
                         vehicleTypes.clear();
                         break;
                     case "ADD_VEHICLE":
@@ -39,7 +39,7 @@ public class Geektrust {
                         vehicleType = lineItems[2];
                         vehicleId = lineItems[3];
                         price = Integer.parseInt(lineItems[4]);
-                        System.out.println(rentalService.addVehicle(branchName, vehicleType, vehicleId, price));
+                        System.out.println(rentalService.addVehicle(branchName, vehicleType, vehicleId, price) ? "TRUE" : "FALSE");
                         break;
                     case "BOOK":
                         branchName = lineItems[1];
