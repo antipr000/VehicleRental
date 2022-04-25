@@ -10,7 +10,7 @@ public class SelectMinPriceVehicleWithHikeStrategy implements IVehicleBookingStr
     @Override
     public int bookVehicle(TreeSet<Vehicle> vehicles, String vehicleType, int start, int end, boolean shouldHike) {
         Optional<Vehicle> lowestCostVehicle = vehicles.stream().filter(vehicle ->
-                vehicle.getType() == vehicleType && vehicle.slot.checkIfAvailable(start, end)
+                vehicle.getType().equals(vehicleType) && vehicle.slot.checkIfAvailable(start, end)
         ).findFirst();
         if(lowestCostVehicle.isPresent()) {
             lowestCostVehicle.get().slot.bookSlot(start, end);

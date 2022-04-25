@@ -30,7 +30,7 @@ public class Branch {
     }
 
     private boolean isValidVehicle(String vehicleType) {
-        if(vehicleTypes.stream().filter(type -> type == vehicleType).count() == 0) return  false;
+        if(vehicleTypes.stream().filter(type -> type.equals(vehicleType)).count() == 0) return  false;
         return true;
     }
 
