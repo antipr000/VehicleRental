@@ -13,8 +13,6 @@ public class Branch {
 
     private TreeSet<Vehicle> vehicles;
 
-    private int numVehiclesBooked = 0;
-
     private final IVehicleBookingStrategy vehicleBookingStrategy;
     private final IPriceHikingStrategy priceHikingStrategy;
 
@@ -44,10 +42,7 @@ public class Branch {
 
     public int bookVehicle(String vehicleType, int start, int end) {
         int result = vehicleBookingStrategy.bookVehicle(vehicles, vehicleType, start, end,
-                priceHikingStrategy.shouldHikePrice(numVehiclesBooked, vehicles.size()));
-        if(result != -1) {
-            numVehiclesBooked += 1;
-        }
+                priceHikingStrategy.shouldHikePrice(vehicles, start, end));
         return result;
     }
 
