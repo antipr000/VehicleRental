@@ -1,8 +1,6 @@
 package org.example.VehicleRental.services;
 
-import org.example.VehicleRental.branch.Branch;
-import org.example.VehicleRental.branch.IVehicleBookingStrategy;
-import org.example.VehicleRental.branch.SelectMinPriceVehicleWithHikeStrategy;
+import org.example.VehicleRental.branch.*;
 import org.example.VehicleRental.storage.IStorage;
 
 import java.util.ArrayList;
@@ -17,7 +15,8 @@ public class RentalService {
     public boolean addBranch(String name, ArrayList<String> vehicleTypes) {
         if(storage.doesBranchExist(name)) return false;
         IVehicleBookingStrategy bookingStrategy = new SelectMinPriceVehicleWithHikeStrategy();
-        Branch branch = new Branch(name, vehicleTypes, bookingStrategy);
+        IPriceHikingStrategy priceHikingStrategy = new HikePriceAt80();
+        Branch branch = new Branch(name, vehicleTypes, bookingStrategy, priceHikingStrategy);
         storage.storeBranch(name, branch);
         return true;
     }
@@ -34,9 +33,9 @@ public class RentalService {
         return branch.bookVehicle(vehicleType, startTime, endTime);
     }
 
-    public void displayVehicles(String branchName, int startTime, int endTime) {
-        if(!storage.doesBranchExist(branchName)) return;
+    public ArrayList<String> displayVehicles(String branchName, int startTime, int endTime) {
+        if(!storage.doesBranchExist(branchName)) return new ArrayList<>();
         Branch branch = storage.getBranch(branchName);
-        branch.displayVehicles(startTime, endTime);
+        return branch.displayVehicles(startTime, endTime);
     }
 }

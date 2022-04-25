@@ -20,12 +20,17 @@ public class Branch {
     private int numVehiclesBooked = 0;
 
     private final IVehicleBookingStrategy vehicleBookingStrategy;
+    private final IPriceHikingStrategy priceHikingStrategy;
 
-    public Branch(String name, ArrayList<String> vehicleTypes, IVehicleBookingStrategy vehicleBookingStrategy) {
+    public Branch(String name,
+                  ArrayList<String> vehicleTypes,
+                  IVehicleBookingStrategy vehicleBookingStrategy,
+                  IPriceHikingStrategy priceHikingStrategy) {
         this.name = name;
         this.vehicleTypes = vehicleTypes;
         this.vehicles = new TreeSet<>();
         this.vehicleBookingStrategy = vehicleBookingStrategy;
+        this.priceHikingStrategy = priceHikingStrategy;
     }
 
     private boolean isValidVehicle(String vehicleType) {
@@ -41,22 +46,21 @@ public class Branch {
     }
 
     public int bookVehicle(String vehicleType, int start, int end) {
-        double percentageBooked = (1.0 * numVehiclesBooked) / (1.0 * vehicles.size()) * 100.0;
         int result = vehicleBookingStrategy.bookVehicle(vehicles, vehicleType, start, end,
-                percentageBooked > 80.0);
+                priceHikingStrategy.shouldHikePrice(numVehiclesBooked, vehicles.size()));
         if(result != -1) {
             numVehiclesBooked += 1;
         }
         return result;
     }
 
-    public void displayVehicles(int start, int end) {
-        List<Vehicle> availableVehicles =
+    public ArrayList<String> displayVehicles(int start, int end) {
+        List<String> availableVehicles =
                 vehicles
                         .stream()
-                        .filter(vehicle -> vehicle.slot.checkIfAvailable(start, end)).collect(Collectors.toList());
-        if(availableVehicles.size() == 0) return;
-        for(int i=0; i<availableVehicles.size()-1; i++) System.out.print(availableVehicles.get(i).getId() + ",");
-        System.out.println(availableVehicles.get(availableVehicles.size()-1));
+                        .filter(vehicle -> vehicle.slot.checkIfAvailable(start, end))
+                        .map(vehicle -> vehicle.getId())
+                        .collect(Collectors.toList());
+        return (ArrayList<String>) availableVehicles;
     }
 }

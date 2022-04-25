@@ -18,7 +18,7 @@ public class SelectMinPriceVehicleWithHikeStrategy implements IVehicleBookingStr
             if(shouldHike) {
                 item = new InflatedPrice(item);
             }
-            return item.getPrice();
+            return item.getPrice() * (end - start);
         } else {
             return -1;
         }
